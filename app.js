@@ -10,7 +10,7 @@ var http = require('http');
 var path = require('path');
 var moment = require('moment');
 
-var app = express();
+var app = exports = module.exports = express();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -31,18 +31,4 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
-
-var server = http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
-});
-
-var io = require('socket.io').listen(server);
-
-io.sockets.on('connection', function (socket){
-  socket.on('send', function (data) {
-    data.date = new Date();
-    io.sockets.emit('res', data);
-  });
-});
-
 

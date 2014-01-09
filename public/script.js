@@ -8,10 +8,7 @@ $(function(){
   // sendボタンが押された時の処理
   $('#button').on('click', function(){
     var text = $('#input').val();
-    socket.emit('send', {
-      user: user,
-      text: text
-    });
+    socket.emit('send', { user: user, text: text });
     $('#input').val('');
   });
 
@@ -26,7 +23,7 @@ setInterval(function(){
   if(($date = $('.date')).size()) {
     $date.each(function(i, el){
       $el = $(el);
-      $el.text('(' + moment($el.attr('data-date')).fromNow() + ')');
+      $el.text(moment($el.attr('data-date')).fromNow());
     });
   }
 }, 1000);
