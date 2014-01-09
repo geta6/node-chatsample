@@ -3,6 +3,7 @@ var socket = io.connect('http://localhost:3000');
 $(function(){
 
   var user = window.prompt('ユーザ名は？');
+  var tmpl = _.template($('#tmpl-body').html());
 
   // sendボタンが押された時の処理
   $('#button').on('click', function(){
@@ -16,20 +17,8 @@ $(function(){
 
   // サーバからテキストがきた時の処理
   socket.on('res', function(data){
-    var body = [
-      data.user,
-      ': ',
-      data.text
-    ].join('');
-    $('#ul').prepend(
-      $('<li>')
-        .text(body)
-        .append($('<span>')
-          .css('padding-left', '10px')
-          .addClass('date')
-          .attr('data-date', data.date)
-        )
-    );
+    // data = { user: .., text: .., date: .. }
+    $('#ul').prepend(  tmpl(data)  );
   });
 });
 
@@ -37,7 +26,7 @@ setInterval(function(){
   if(($date = $('.date')).size()) {
     $date.each(function(i, el){
       $el = $(el);
-      $el.text(moment($el.attr('data-date')).fromNow());
+      $el.text('(' + moment($el.attr('data-date')).fromNow() + ')');
     });
   }
 }, 1000);

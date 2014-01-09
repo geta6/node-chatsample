@@ -7,3 +7,8 @@ block content
   button#button send
   ul#ul
 
+  script#tmpl-body(type='text/template')
+    li
+      span <%- user %>: <%- text %>
+      span.date(data-date!='<%- date %>') (<%- moment(date).fromNow() %>)
+
